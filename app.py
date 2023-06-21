@@ -9,7 +9,6 @@ from db import mysql
 from model import main_route
 
 load_dotenv()
-
 app = Flask(
     __name__, static_folder="C:/Users/User/Desktop/login_test/venv/static/img"
 )
