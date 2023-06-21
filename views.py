@@ -2,7 +2,9 @@ from dotenv import load_dotenv
 from datetime import datetime
 from db import mysql
 
+
 load_dotenv()
+
 
 #create new user.
 def register_user_to_db(
