@@ -22,3 +22,6 @@ six==1.16.0
 tomli==2.0.1
 Werkzeug==2.3.6
 zope.interface==6.0
+gunicorn==19.7.1
+touch-2020.12.3 
+values-2020.12.3
