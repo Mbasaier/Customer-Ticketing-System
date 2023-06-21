@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h4 style="text-align: center; padding-top: 30px;">USER DETAILS</h4>
+      <div id="userDetails" class="form-group">
+        <label for="firstName">First Name:</label>
+        <p id="firstName"></p>
+        <label for="lastName">Last Name:</label>
+        <p id="lastName"></p>
+        <label for="userName">User Name:</label>
+        <p id="userName"></p>
+        <label for="dob">Date of Birth:</label>
+        <p id="dob"></p>
+        <label for="address">Address:</label>
+        <p id="address"></p>
+        <label for="email">Email Address:</label>
+        <p id="email"></p>
+        <label for="password">Password:</label>
+        <p id="password"></p>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $.ajax({
+          url: "/edit_customer_detail",
+          method: "GET",
+          dataType: "json",
+          success: function(data) {
+            $("#firstName").text(data.firstName);
+            $("#lastName").text(data.lastName);
+            $("#userName").text(data.userName);
+            $("#dob").text(data.dob);
+            $("#address").text(data.address);
+            $("#email").text(data.email);
+            $("#password").text(data.password);
+          },
+          error: function(xhr, status, error) {
+            console.log("Error:", error);
+            alert("An error occurred while retrieving account data");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

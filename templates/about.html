@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+        padding-top: 5px;
+      }
+
+      .topnav a {
+        float: right;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        line-height: 30px;
+      }
+
+      .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+
+      .topnav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+
+      .topnav-right {
+        float: left;
+        color: aliceblue;
+        font-weight: bolder;
+        font-size: 20px;
+        padding-left: 15px;
+        line-height: 30px;
+      }
+
+      .footer {
+        text-align: center;
+        background-color: #333;
+        color: #f2f2f2;
+        padding: 10px;
+        font-size: 14px;
+        margin-top: auto;
+      }
+
+      .container {
+        padding-left: 15px;
+        text-align: justify;
+        width: 97%;
+      }
+
+      .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .image-container img {
+        width: 600px;
+        margin: 10px;
+      }
+    </style>
+    <script>
+      window.addEventListener("DOMContentLoaded", (event) => {
+        const links = document.querySelectorAll(".topnav a");
+        links.forEach((link) => {
+          link.addEventListener("click", () => {
+            links.forEach((item) => item.classList.remove("active"));
+            link.classList.add("active");
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="topnav">
+      <div class="topnav-right">
+        <p>METRO TICKETING SYSTEM</p>
+      </div>
+      <a href="/logout">Logout</a>
+      <a href="/edit_customer_detail">My Account</a>
+      <a href="/create_ticket">Add New Ticket</a>
+      <a class="active" href="about.html">About Us</a>
+      <a href="/home">Dashboard</a>
+    </div>
+
+    <div class="container">
+      <h1>About Us</h1>
+      <p>
+        Hi! I am Basaier a backend developer worked in Python’s different framework like FASTAPI and Flask, 
+        with SQL and MongoDB, Docker and AWS. Software engineering has always been my passion and has helped
+        me build problem-solving, creativity, organizational, and self-confidence abilities in my personality. 
+        Writing successful code makes me feel positive and provides me with a sense of accomplishment.
+      </p>
+        <p>
+        As a Backend Developer at Q.met GmbH, I design, develop, and maintain 
+        backend systems for web applications. Using Python, I write testable, clean and efficient code to meet 
+        customer expectation, optimize the system's performance, and ensure the system's reliability and 
+        stability. I have a deep understanding of API design and RESTful architecture and experience with 
+        microservices like using Docker for containerization and version control tools like Git as I have done 
+        various projects in university and completed project in Q.met. One of my successful projects in Q.met is 
+        “Risk Control”, in which I initiated and completed a python backend application based on FASTAPI 
+        framework using MYSQL database with pydantic for data validation and implementing OAuth 2.0 for 
+        API security with JWT. At Frankfurt University, I implemented various projects regarding machine 
+        learning as well as Azure cloud services, which give me a broader exposure. To constantly enhance my 
+        knowledge, I like to do online courses and projects.
+      </p>
+
+      <div class="image-container">
+        <img src= "{{url_for('static',filename='3.jpg')}}" alt="Programming Life 3" />
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 1995-2023 by Muhammad Basaier. All Rights Reserved.</p>
+    </div>
+  </body>
+</html>
