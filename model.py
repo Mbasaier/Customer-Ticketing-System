@@ -1,10 +1,11 @@
-from flask import (Blueprint, jsonify, redirect, render_template, request,
-                   session, url_for,flash)
+from flask import (Blueprint, flash, jsonify, redirect, render_template,
+                   request, session, url_for)
 
 from views import (check_user, create_ticket_to_db, delete_ticket_from_db,
-                   edit_user_from_db, register_user_to_db, update_ticket_to_db,
+                   edit_user_from_db, get_all_users_from_db,
+                   register_user_to_db, update_ticket_to_db,
                    view_ticket_by_id_from_db, view_tickets_from_db,
-                   view_user_from_db, get_all_users_from_db)
+                   view_user_from_db)
 
 main_route = Blueprint("main", __name__)
 
@@ -26,7 +27,7 @@ def register():
         email_address = request.form["email_address"]
         password = request.form["password"]
 
-        if username not in existing_users: 
+        if username not in existing_users:
             register_user_to_db(
                 first_name,
                 last_name,
@@ -42,7 +43,7 @@ def register():
             error = "Username already taken."
             return render_template("register.html", error=error)
     else:
-        return render_template("register.html",error=None)
+        return render_template("register.html", error=None)
 
 
 @main_route.route("/login", methods=["POST", "GET"])
@@ -92,7 +93,7 @@ def create_ticket():
         create_ticket_to_db(
             username, ticket_title, ticket_type, ticket_status, description
         )
-        flash('Ticket edited Successfully', 'success')
+        flash("Ticket edited Successfully", "success")
         # Return a JSON response indicating success
         return jsonify({"message": "Ticket created successfully"})
     else:
@@ -130,7 +131,7 @@ def update_ticket(ticket_number):
     if request.method == "POST":
         # print("here")
         if ticket_number in session["possible_id"]:
-            print("ticket_number",ticket_number)
+            print("ticket_number", ticket_number)
             data = request.get_json()
             print("update ticket", data)
             ticket_title = data.get("ticket_title")
@@ -138,7 +139,9 @@ def update_ticket(ticket_number):
             ticket_status = data.get("status_name")
             description = data.get("description")
 
-            update_ticket_to_db(ticket_number, ticket_title, ticket_type, ticket_status, description)
+            update_ticket_to_db(
+                ticket_number, ticket_title, ticket_type, ticket_status, description
+            )
             return jsonify({"success": True})
         else:
             return jsonify({"success": False, "message": "Unauthorized access"})
@@ -168,5 +171,5 @@ def update_details():
         password = data.get("password")
 
         edit_user_from_db(firstName, lastName, username, dob, address, email, password)
-        flash('Info edited Successfully', 'success')
-        return jsonify({'success': True})
+        flash("Info edited Successfully", "success")
+        return jsonify({"success": True})

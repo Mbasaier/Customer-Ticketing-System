@@ -1,11 +1,13 @@
-from dotenv import load_dotenv
 from datetime import datetime
+
+from dotenv import load_dotenv
+
 from db import mysql
 
 load_dotenv()
 
 
-#create new user.
+# create new user.
 def register_user_to_db(
     first_name: str,
     last_name: str,
@@ -32,7 +34,8 @@ VALUES (%s,%s,%s,%s,%s,%s,%s)""",
     mysql.connection.commit()
     cursor.close()
 
-#crete new ticket.
+
+# crete new ticket.
 def create_ticket_to_db(
     username: str,
     ticket_title: str,
@@ -49,7 +52,8 @@ VALUES (%s,%s,%s,%s,%s)""",
     mysql.connection.commit()
     cursor.close()
 
-#update current ticket.
+
+# update current ticket.
 def update_ticket_to_db(
     ticket_number: int,
     ticket_title: str,
@@ -70,7 +74,8 @@ WHERE ticket_number = %s""",
     mysql.connection.commit()
     cursor.close()
 
-#delete a ticket.
+
+# delete a ticket.
 def delete_ticket_from_db(ticket_number: int):
     cursor = mysql.connection.cursor()
     cursor.execute(
@@ -82,7 +87,8 @@ WHERE ticket_number = %s""",
     mysql.connection.commit()
     cursor.close()
 
-#view all ticket if user is root o.w show only for particular user.
+
+# view all ticket if user is root o.w show only for particular user.
 def view_tickets_from_db(username: str):
     cursor = mysql.connection.cursor()
     if username == "root":
@@ -114,7 +120,8 @@ WHERE username = %s""",
     # print("view_ticket_from_db",results)
     return results
 
-#show ticket by ticket number.
+
+# show ticket by ticket number.
 def view_ticket_by_id_from_db(ticket_number: int):
     cursor = mysql.connection.cursor()
     cursor.execute(
@@ -136,7 +143,8 @@ WHERE ticket_number = %s""",
     cursor.close()
     return result
 
-# fetch data for a particular user. 
+
+# fetch data for a particular user.
 def view_user_from_db(username: str):
     cursor = mysql.connection.cursor()
     cursor.execute(
@@ -158,6 +166,7 @@ WHERE username = %s""",
         "password": result[7],
     }
     return result
+
 
 # edit record for a existing user.
 def edit_user_from_db(
@@ -184,6 +193,7 @@ WHERE username = %s""",
     mysql.connection.commit()
     cursor.close()
 
+
 # check if user exists in database.
 def check_user(username: str, password: str):
     cursor = mysql.connection.cursor()
@@ -202,11 +212,12 @@ WHERE username=%s
     else:
         return False
 
+
 def get_all_users_from_db():
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT username FROM customers")
     result = cursor.fetchall()
-    possible_users =[result[x][0] for x in range(len(result))]
+    possible_users = [result[x][0] for x in range(len(result))]
     cursor.close()
     print(possible_users)
     return possible_users

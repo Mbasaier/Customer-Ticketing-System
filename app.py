@@ -1,19 +1,15 @@
 import os
 
-
 from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 from flask_json import FlaskJSON
 
-
-from model import main_route
 from db import mysql
+from model import main_route
 
 load_dotenv()
-app = Flask(
-    __name__, static_folder="static/img" 
-)
+app = Flask(__name__, static_folder="static/img")
 CORS(app)
 FlaskJSON(app)
 app.config["DEBUG"] = True
@@ -27,13 +23,11 @@ db_password = os.getenv("DB_PASSWORD")
 db_name = os.getenv("DB_NAME")
 
 
-
 app.config["MYSQL_HOST"] = db_host
 app.config["MYSQL_USER"] = db_user
 app.config["MYSQL_PASSWORD"] = db_password
 app.config["MYSQL_DB"] = db_name
-app.config["MYSQL_PORT"]= int(db_port)
-
+app.config["MYSQL_PORT"] = int(db_port)
 
 
 app.register_blueprint(main_route)
