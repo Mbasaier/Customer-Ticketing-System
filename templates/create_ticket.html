@@ -178,6 +178,7 @@
               } else {
                 // Failed to create ticket
                 console.log("Failed"); // Log the response data
+                showMessage("Ticket created successfully", "success");
               }
             })
             .catch((error) => {
@@ -186,7 +187,16 @@
             });
         });
       });
-      
+      function showMessage(message, type) {
+        const flashMessage = document.createElement("div");
+        flashMessage.className = `alert alert-${type}`;
+        flashMessage.textContent = message;
+        const form = document.querySelector("form");
+        form.parentNode.insertBefore(flashMessage, form.nextSibling);
+        setTimeout(() => {
+          flashMessage.remove();
+        }, 5000);
+      }
     </script>
   </head>
   <body>

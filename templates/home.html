@@ -175,10 +175,10 @@
                 console.log("Success"); // Log the response data
                 // You can add further logic here if needed
                 // For example, you can update the UI or reload the page
-                location.reload();
               } else {
                 // Deletion failed
                 console.log("Failed"); // Log the response data
+                location.reload();
                 // You can add further error handling logic here if needed
                 // For example, display an error message to the user
               }
@@ -242,6 +242,7 @@
                   console.log("Success"); // Log the response data
                   // You can add further logic here if needed
                   // For example, you can update the UI or reload the page
+                  alert("Ticket updated successfully");
                   location.reload();
                 } else {
                   // Update failed
@@ -253,6 +254,7 @@
               })
               .catch((error) => {
                 console.error("Error:", error);
+                alert("An error occurred while updating the ticket");
               });
           }
         }

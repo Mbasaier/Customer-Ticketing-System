@@ -1,5 +1,5 @@
 from flask import (Blueprint, jsonify, redirect, render_template, request,
-                   session, url_for)
+                   session, url_for,flash)
 
 from views import (check_user, create_ticket_to_db, delete_ticket_from_db,
                    edit_user_from_db, register_user_to_db, update_ticket_to_db,
@@ -87,7 +87,7 @@ def create_ticket():
         create_ticket_to_db(
             username, ticket_title, ticket_type, ticket_status, description
         )
-
+        flash('Ticket edited Successfully', 'success')
         # Return a JSON response indicating success
         return jsonify({"message": "Ticket created successfully"})
     else:
@@ -133,10 +133,10 @@ def update_ticket(ticket_number):
             ticket_status = data.get("status_name")
             description = data.get("description")
 
-        update_ticket_to_db(
-            ticket_number, ticket_title, ticket_type, ticket_status, description
-        )
-        return render_template("home.html")
+            update_ticket_to_db(ticket_number, ticket_title, ticket_type, ticket_status, description)
+            return jsonify({"success": True})
+        else:
+            return jsonify({"success": False, "message": "Unauthorized access"})
     else:
         return render_template("create_ticket.html")
 
@@ -163,4 +163,5 @@ def update_details():
         password = data.get("password")
 
         edit_user_from_db(firstName, lastName, username, dob, address, email, password)
-        return render_template("home.html")
+        flash('Info edited Successfully', 'success')
+        return jsonify({'success': True})

@@ -136,7 +136,10 @@
               console.log(data); // Log the response data
               if (data.success) {
                 // User details updated successfully
-                console.log("Success"); // Log the response data
+                const successMessage = document.createElement("div");
+                successMessage.classList.add("alert", "alert-success");
+                successMessage.textContent = "Info edited successfully";
+                form.insertBefore(successMessage, form.firstChild);
                 form.reset(); // Reset the form
               } else {
                 // Failed to update user details
@@ -151,9 +154,7 @@
         });
       });
     </script>
-    
-
-    
+        
   </head>
   <div class="topnav">
     <div class="topnav-right">

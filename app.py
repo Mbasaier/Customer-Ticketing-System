@@ -12,7 +12,7 @@ from db import mysql
 
 load_dotenv()
 app = Flask(
-    __name__, static_folder="static/img"
+    __name__, static_folder="C:/Users/User/Desktop/login_test/venv/static/img"
 )
 CORS(app)
 FlaskJSON(app)
