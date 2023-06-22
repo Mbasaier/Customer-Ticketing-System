@@ -201,3 +201,12 @@ WHERE username=%s
         return True
     else:
         return False
+
+def get_all_users_from_db():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT username FROM customers")
+    result = cursor.fetchall()
+    possible_users =[result[x][0] for x in range(len(result))]
+    cursor.close()
+    print(possible_users)
+    return possible_users

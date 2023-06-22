@@ -4,7 +4,7 @@ from flask import (Blueprint, jsonify, redirect, render_template, request,
 from views import (check_user, create_ticket_to_db, delete_ticket_from_db,
                    edit_user_from_db, register_user_to_db, update_ticket_to_db,
                    view_ticket_by_id_from_db, view_tickets_from_db,
-                   view_user_from_db)
+                   view_user_from_db, get_all_users_from_db)
 
 main_route = Blueprint("main", __name__)
 
@@ -17,6 +17,7 @@ def index():
 @main_route.route("/register", methods=["POST", "GET"])
 def register():
     if request.method == "POST":
+        existing_users = get_all_users_from_db()
         first_name = request.form["first_name"]
         last_name = request.form["last_name"]
         username = request.form["username"]
@@ -25,19 +26,23 @@ def register():
         email_address = request.form["email_address"]
         password = request.form["password"]
 
-        register_user_to_db(
-            first_name,
-            last_name,
-            username,
-            birth_date,
-            address,
-            email_address,
-            password,
-        )
-        return redirect(url_for("main.index"))
-
+        if username not in existing_users: 
+            register_user_to_db(
+                first_name,
+                last_name,
+                username,
+                birth_date,
+                address,
+                email_address,
+                password,
+            )
+            return redirect(url_for("main.index"))
+        else:
+            print("user exists")
+            error = "Username already taken."
+            return render_template("register.html", error=error)
     else:
-        return render_template("register.html")
+        return render_template("register.html",error=None)
 
 
 @main_route.route("/login", methods=["POST", "GET"])
