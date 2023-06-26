@@ -1,5 +1,6 @@
 from flask import (Blueprint, flash, jsonify, redirect, render_template,
                    request, session, url_for)
+from flask_bcrypt import Bcrypt
 
 from views import (check_user, create_ticket_to_db, delete_ticket_from_db,
                    edit_user_from_db, get_all_users_from_db,
@@ -8,6 +9,7 @@ from views import (check_user, create_ticket_to_db, delete_ticket_from_db,
                    view_user_from_db)
 
 main_route = Blueprint("main", __name__)
+bcrypt = Bcrypt()
 
 
 @main_route.route("/")
@@ -27,7 +29,23 @@ def register():
         email_address = request.form["email_address"]
         password = request.form["password"]
 
-        if username not in existing_users:
+        user_detail = [
+            first_name,
+            last_name,
+            username,
+            birth_date,
+            address,
+            email_address,
+            password,
+        ]
+        print("user_detail", user_detail)
+        if "" in user_detail:
+            error = "Missing Input Parameters"
+            return render_template("register.html", error=error)
+
+        elif username not in existing_users:
+            # Hash the password
+            hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
             register_user_to_db(
                 first_name,
                 last_name,
@@ -35,11 +53,10 @@ def register():
                 birth_date,
                 address,
                 email_address,
-                password,
+                hashed_password,
             )
             return redirect(url_for("main.index"))
         else:
-            print("user exists")
             error = "Username already taken."
             return render_template("register.html", error=error)
     else:
@@ -53,9 +70,9 @@ def login():
         password = request.form["password"]
         # print(check_user(username, password))
         # print(session)
-        if check_user(username, password):
+        result = check_user(username)
+        if bcrypt.check_password_hash(result, password):
             session["username"] = username
-
         return redirect(url_for("main.home"))
     else:
         return redirect(url_for("main.index"))
@@ -107,7 +124,6 @@ def about_us():
 
 @main_route.route("/view_tickets/<int:ticket_number>", methods=["GET"])
 def delete_ticket(ticket_number):
-    print(ticket_number)
     if ticket_number in session["possible_id"]:
         delete_ticket_from_db(ticket_number)
         return jsonify({"message": "Resource deleted successfully"})
@@ -129,11 +145,10 @@ def view_ticket_by_id(ticket_number):
 @main_route.route("/update_ticket/<int:ticket_number>", methods=["POST", "GET"])
 def update_ticket(ticket_number):
     if request.method == "POST":
-        # print("here")
         if ticket_number in session["possible_id"]:
-            print("ticket_number", ticket_number)
+            # print("ticket_number", ticket_number)
             data = request.get_json()
-            print("update ticket", data)
+            # print("update ticket", data)
             ticket_title = data.get("ticket_title")
             ticket_type = data.get("ticket_type")
             ticket_status = data.get("status_name")
@@ -162,7 +177,7 @@ def update_details():
         username = session["username"]
         data = request.get_json()
 
-        print("update user", data)
+        # print("update user", data)
         firstName = data.get("firstName")
         lastName = data.get("lastName")
         dob = data.get("dob")

@@ -195,22 +195,18 @@ WHERE username = %s""",
 
 
 # check if user exists in database.
-def check_user(username: str, password: str):
+def check_user(username: str):
     cursor = mysql.connection.cursor()
     cursor.execute(
-        """SELECT username,
-       password
+        """SELECT password
 FROM customers
-WHERE username=%s
-  AND password=%s""",
-        (username, password),
+WHERE username=%s""",
+        (username,),
     )
 
     result = cursor.fetchone()
-    if result:
-        return True
-    else:
-        return False
+    print("result", result)
+    return result[0]
 
 
 def get_all_users_from_db():
@@ -219,5 +215,4 @@ def get_all_users_from_db():
     result = cursor.fetchall()
     possible_users = [result[x][0] for x in range(len(result))]
     cursor.close()
-    print(possible_users)
     return possible_users
